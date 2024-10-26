@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 from pymongo import MongoClient 
 from pymongo.errors import ServerSelectionTimeoutError
@@ -27,6 +27,15 @@ except ServerSelectionTimeoutError:  # Changed from ConnectionError
 db = client['flaskreactfullstack']
 # Add messages collection
 messages_collection = db['messages']
+
+# Add these routes to serve React app
+@app.route('/')
+def serve_react():
+    return send_from_directory('client/dist', 'index.html')
+
+@app.route('/<path:path>')
+def serve_static(path):
+    return send_from_directory('client/dist', path)
 
 @app.route("/api/users", methods=['GET'])
 def users():
