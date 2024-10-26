@@ -8,7 +8,8 @@ from dotenv import load_dotenv
 load_dotenv()  # Load environment variables from .env file
 
 app = Flask(__name__)
-cors = CORS(app, origins = '*')
+# Update CORS configuration to accept your frontend domain
+CORS(app, resources={r"/api/*": {"origins": ["https://render-flask-deployment-i1ax.onrender.com", "http://localhost:5173"]}})
 
 # Replace hardcoded connection string with environment variable
 MONGODB_URI = os.getenv('MONGODB_URI')
@@ -72,4 +73,6 @@ def get_messages():
     return jsonify({"messages": [msg['message'] for msg in messages]})
 
 if __name__ == "__main__":
-    app.run()
+    # Use the PORT environment variable provided by Render
+    port = int(os.environ.get("PORT", 8080))
+    app.run(host="0.0.0.0", port=port)

@@ -4,6 +4,9 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import axios from 'axios'
 
+// Replace the hardcoded localhost URLs with an environment variable
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080"
+
 function App() {
   const [count, setCount] = useState(0)
   const [array, setArray] = useState([])
@@ -12,26 +15,26 @@ function App() {
   const [messages, setMessages] = useState([])
 
   const fetchAPI = async () => {
-    const response = await axios.get("http://localhost:8080/api/users")
+    const response = await axios.get(`${API_URL}/api/users`)
     setArray(response.data.users)
   }
 
   const fetchSKUs = async () => {
-    const response = await axios.get("http://localhost:8080/api/sku")
+    const response = await axios.get(`${API_URL}/api/sku`)
     setSkus(response.data.skus)
   }
 
   const fetchMessages = async () => {
-    const response = await axios.get("http://localhost:8080/api/messages")
+    const response = await axios.get(`${API_URL}/api/messages`)
     setMessages(response.data.messages)
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (message.trim()) {
-      await axios.post("http://localhost:8080/api/messages", { message })
-      setMessage('') // Clear input
-      fetchMessages() // Refresh messages
+      await axios.post(`${API_URL}/api/messages`, { message })
+      setMessage('')
+      fetchMessages()
     }
   }
 
