@@ -9,7 +9,12 @@ load_dotenv()  # Load environment variables from .env file
 
 app = Flask(__name__)
 # Update CORS configuration to accept your frontend domain
-CORS(app, resources={r"/api/*": {"origins": ["https://render-flask-frontend.onrender.com/", "http://localhost:5173"]}})
+cors = CORS(app, resources={
+    r"/api/*": {
+        "origins": ["https://your-frontend-url.onrender.com"],
+        "methods": ["GET", "POST", "OPTIONS"]
+    }
+})
 
 # Replace hardcoded connection string with environment variable
 MONGODB_URI = os.getenv('MONGODB_URI')
