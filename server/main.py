@@ -28,7 +28,6 @@ except ServerSelectionTimeoutError:  # Changed from ConnectionError
 db = client['flaskreactfullstack']
 # Add messages collection
 messages_collection = db['messages']
-supabase_users_collection = db['users_supabase']
 
 # Add these routes to serve React app
 @app.route('/')
